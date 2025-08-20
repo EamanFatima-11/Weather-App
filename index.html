@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-500 to-indigo-600 min-h-screen flex items-center justify-center text-white">
+
+  <div class="bg-white/10 p-8 rounded-2xl shadow-xl text-center w-96">
+    <h1 class="text-2xl font-bold mb-6">🌤️ Weather App</h1>
+
+    <!-- Input box -->
+    <input 
+      id="cityInput" 
+      type="text" 
+      placeholder="Enter city name..." 
+      class="w-full p-3 rounded-lg text-black mb-4 outline-none">
+
+    <!-- Button -->
+    <button 
+      onclick="getWeather()" 
+      class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold transition">
+      Get Weather
+    </button>
+
+    <!-- Weather Info -->
+    <div id="weatherResult" class="mt-6 text-lg font-medium"></div>
+  </div>
+
+  <script>
+  const apiKey = "c3a50334d993d147aae922fd3f480b02"; 
+
+  async function getWeather() {
+    const city = document.getElementById("cityInput").value;
+    const resultDiv = document.getElementById("weatherResult");
+
+    if (!city) {
+      resultDiv.innerHTML = "⚠️ Please enter a city name.";
+      return;
+    }
+
+    try {
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (response.ok) {
+        resultDiv.innerHTML = `
+          <p class="text-xl">📍 ${data.name}, ${data.sys.country}</p>
+          <p class="text-2xl font-bold mt-2">${data.main.temp}°C</p>
+          <p class="mt-2">🌡️ Feels like: ${data.main.feels_like}°C</p>
+          <p class="mt-2">☁️ ${data.weather[0].description}</p>
+        `;
+      } else {
+        // Show real API error message
+        resultDiv.innerHTML = `❌ Error: ${data.message}`;
+      }
+    } catch (error) {
+      resultDiv.innerHTML = `⚠️ Network Error: ${error}`;
+    }
+  }
+</script>
+
+</body>
+</html>
