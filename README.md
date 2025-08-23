@@ -17,8 +17,3 @@ It uses the [OpenWeather API](https://openweathermap.org/api) to fetch real-time
 - **OpenWeather API**
 
 ---
-
-## 📦 Installation & Setup
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/your-username/weather-app.git
